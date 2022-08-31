@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
+#include <Windows.h>
 
 using std::cout;
 using std::cin;
@@ -153,6 +154,7 @@ void gener_lab(const int& x, const int& y)
 
 void paint_lab(const int& x, const int& y)
 {
+	HANDLE hOUTPUT = GetStdHandle(STD_OUTPUT_HANDLE);
 	for (int y1 = 1; y1 < y; y1++)
 	{
 		if ((y1 & 1) == 0)
@@ -169,15 +171,19 @@ void paint_lab(const int& x, const int& y)
 					cout << "|";
 					break;
 				case 2:
+					SetConsoleTextAttribute(hOUTPUT, FOREGROUND_RED);
 					cout << " # ";	//bot
 					break;
 				case 3:
-					cout << " * ";	//way to finish
+					SetConsoleTextAttribute(hOUTPUT, FOREGROUND_GREEN);
+					cout << " ' ";	//way to finish
 					break;
 				case 4:
-					cout << " x ";	//way to start (return)
+					SetConsoleTextAttribute(hOUTPUT, FOREGROUND_BLUE);
+					cout << " * ";	//way to start (return)
 						break;
 				}
+				SetConsoleTextAttribute(hOUTPUT, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 			}
 
 		else
