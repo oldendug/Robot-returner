@@ -2,14 +2,12 @@
 //
 
 #include <iostream>
-#include <string>
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
 
 using std::cout;
 using std::cin;
-using std::string;
 using std::rand;
 using namespace std;
 
@@ -55,7 +53,7 @@ int main()
 
 		lab[2 * column_bot][2 * row_bot] = 2;
 		paint_lab(x, y);
-	} while ((column_bot != columns) && (row_bot != rows));
+	} while ((column_bot != columns) || (row_bot != rows));
 
 	do //way return
 	{
@@ -69,7 +67,7 @@ int main()
 
 		lab[2 * column_bot][2 * row_bot] = 2;
 		paint_lab(x, y);
-	} while ((column_bot != 1) && (row_bot != 1));
+	} while ((column_bot != 1) || (row_bot != 1));
 }
 
 void turn_bot(int& corn, int dcorn)		// 0=up, 1=right, 2=down,3=left 
@@ -197,4 +195,4 @@ void paint_lab(const int& x, const int& y)
 	while(cl==0)
 		cl=(char)_getch();
 }
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
+// Запуск программы: CTRL+F5 
