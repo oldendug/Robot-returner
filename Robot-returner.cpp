@@ -5,6 +5,7 @@
 #include <string>
 #include <stdlib.h>
 #include <time.h>
+#include <conio.h>
 
 using std::cout;
 using std::cin;
@@ -12,12 +13,13 @@ using std::string;
 using std::rand;
 using namespace std;
 
-void gener_lab(int,int);
-void paint_lab(int,int);
+void gener_lab(const int&,const int&);
+void paint_lab(const int&, const int&);
+void turn_bot(int&,int);
 
 constexpr int limitedSizeOfArray = 30;
 char lab[limitedSizeOfArray][limitedSizeOfArray];
-string str;
+char cl=0;
 
 int main()
 {
@@ -35,10 +37,11 @@ int main()
 		
 	gener_lab(x,y);
 
+	int corn_bot = 1;			//corner of bot position / 0=up, 1=right, 2=down,3=left
 	int column_bot = 1;			//bot position in cells of labirint, if you need position in lab array then x2
 	int row_bot = 1;
 	paint_lab(x,y);
-	for (auto& numbers : lab){for (int numb : numbers)cout << numb;cout << "\n";};
+	//for (auto& numbers : lab){for (int numb : numbers)cout << numb;cout << "\n";};
 		
 	do //way to finish
 	{
@@ -69,7 +72,16 @@ int main()
 	} while ((column_bot != 1) && (row_bot != 1));
 }
 
-void gener_lab(int x, int y)
+void turn_bot(int& corn, int dcorn)		// 0=up, 1=right, 2=down,3=left 
+{
+	corn += dcorn;
+	while (corn < 0)
+		corn += 4;
+	while (corn > 3)
+		corn -= 4;
+}
+
+void gener_lab(const int& x, const int& y)
 {   
 	for (int i = 1; i < x; i++)			//build outside walls
 	{	
@@ -129,7 +141,6 @@ void gener_lab(int x, int y)
 				lab[2*i+2+di][2*j+2+dj] = 0;
 				built_cells[i + di][j + dj] = 1;
 				numb_gen_cells++;
-				cout << di << dj<<"\n";
 			}
 			i += di;
 			j += dj;
@@ -142,7 +153,7 @@ void gener_lab(int x, int y)
 	}
 }
 
-void paint_lab(int x,int y)
+void paint_lab(const int& x, const int& y)
 {
 	for (int y1 = 1; y1 < y; y1++)
 	{
@@ -182,17 +193,8 @@ void paint_lab(int x,int y)
 			};
 		cout <<" "<< "\n";
 	};
-	cin >> str;
-	//cout << " " << std::endl;
-
+	cl = 0;
+	while(cl==0)
+		cl=(char)_getch();
 }
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
