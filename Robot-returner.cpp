@@ -17,8 +17,13 @@ void paint_lab(const int&, const int&);
 void turn_bot(int&,int);
 
 constexpr int limitedSizeOfArray = 30;
-char lab[limitedSizeOfArray][limitedSizeOfArray];
-char cl=0;
+char lab[limitedSizeOfArray+2][limitedSizeOfArray+2];
+char memory_bot[limitedSizeOfArray * (limitedSizeOfArray - 1)]={1};
+
+int step_paint = 0;			//number of step for one painting / if 0 then only start, finish, final painting
+int step = 0;
+int memory_numb = 1;
+char cl = 0;
 
 int main()
 {
@@ -41,8 +46,10 @@ int main()
 	int row_bot = 1;
 	paint_lab(x,y);
 	//for (auto& numbers : lab){for (int numb : numbers)cout << numb;cout << "\n";};
-		
-	do //way to finish
+	
+	
+	
+	do 			//way to finish
 	{
 		lab[2 * column_bot][2 * row_bot] = 3;
 
@@ -53,10 +60,19 @@ int main()
 		//end 
 
 		lab[2 * column_bot][2 * row_bot] = 2;
-		paint_lab(x, y);
+		if (step++ < step_paint)
+		{
+			if (step - 1 == 0)
+				paint_lab(x, y);
+		}
+		else
+			step = 0;
 	} while ((column_bot != columns) || (row_bot != rows));
 
-	do //way return
+	
+	
+	paint_lab(x, y);
+	do 			//way return
 	{
 		lab[2 * column_bot][2 * row_bot] = 4;
 
@@ -67,9 +83,18 @@ int main()
 		//end 
 
 		lab[2 * column_bot][2 * row_bot] = 2;
-		paint_lab(x, y);
+		if (step++ < step_paint)
+		{
+			if (step - 1 == 0)
+				paint_lab(x, y);
+		}
+		else
+			step = 0;
 	} while ((column_bot != 1) || (row_bot != 1));
+	paint_lab(x, y);
 }
+
+
 
 void turn_bot(int& corn, int dcorn)		// 0=up, 1=right, 2=down,3=left 
 {
@@ -79,6 +104,8 @@ void turn_bot(int& corn, int dcorn)		// 0=up, 1=right, 2=down,3=left
 	while (corn > 3)
 		corn -= 4;
 }
+
+
 
 void gener_lab(const int& x, const int& y)
 {   
@@ -151,6 +178,8 @@ void gener_lab(const int& x, const int& y)
 
 	}
 }
+
+
 
 void paint_lab(const int& x, const int& y)
 {
