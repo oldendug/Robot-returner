@@ -16,12 +16,14 @@ void gener_lab(const int&,const int&);
 void paint_lab(const int&, const int&);
 void turn_bot(int&,int);
 
-constexpr int limitedSizeOfArray = 30;
+//varianles for editing
+constexpr int limitedSizeOfArray = 30;		//standart 30 / admissible 62
+int step_paint = 0;				//number of step for one painting / if 0 then only start, finish, final painting
+//
+
 char lab[limitedSizeOfArray+2][limitedSizeOfArray+2];
 char memory_bot[limitedSizeOfArray * (limitedSizeOfArray - 1)]={1};
 
-int step_paint = 0;			//number of step for one painting / if 0 then only start, finish, final painting
-int step = 0;
 int memory_numb = 1;
 char cl = 0;
 
@@ -48,7 +50,7 @@ int main()
 	//for (auto& numbers : lab){for (int numb : numbers)cout << numb;cout << "\n";};
 	
 	
-	
+	int step = 1;
 	do 			//way to finish
 	{
 		lab[2 * column_bot][2 * row_bot] = 3;
@@ -60,17 +62,18 @@ int main()
 		//end 
 
 		lab[2 * column_bot][2 * row_bot] = 2;
-		if (step++ < step_paint)
+		if (step <= step_paint)
 		{
-			if (step - 1 == 0)
+			if (step  == 1)
 				paint_lab(x, y);
+			step++;
+			if (step > step_paint)
+				step = 1;
 		}
-		else
-			step = 0;
 	} while ((column_bot != columns) || (row_bot != rows));
 
 	
-	
+	step = 1;
 	paint_lab(x, y);
 	do 			//way return
 	{
@@ -83,13 +86,14 @@ int main()
 		//end 
 
 		lab[2 * column_bot][2 * row_bot] = 2;
-		if (step++ < step_paint)
+		if (step <= step_paint)
 		{
-			if (step - 1 == 0)
+			if (step  == 1)
 				paint_lab(x, y);
+			step++;
+			if (step > step_paint)
+				step = 1;
 		}
-		else
-			step = 0;
 	} while ((column_bot != 1) || (row_bot != 1));
 	paint_lab(x, y);
 }
@@ -134,14 +138,14 @@ void gener_lab(const int& x, const int& y)
 			}
 	}
 
-	bool built_cells[limitedSizeOfArray / 2 - 1] [limitedSizeOfArray / 2 - 1]={1};	//if cell was building in labirinth then 1
-	int numb_gen_cells=1;														//number cells what be gener
-	const int numb_cells = (x/2-1) * (y/2-1);									//number all cells
-	const double percent_cells = 1.0;											//percent(proportion) of gen cells for taking to second algotithm
+	bool built_cells[limitedSizeOfArray / 2 - 1] [limitedSizeOfArray / 2 - 1]={1};			//if cell was building in labirinth then 1
+	int numb_gen_cells=1;										//number cells what be gener
+	const int numb_cells = (x/2-1) * (y/2-1);							//number all cells
+	const double percent_cells = 1.0;								//percent(proportion) of gen cells for taking to second algotithm
 	srand(time(0));
 
 	int i=0, j=0;
-	while(!(!(numb_gen_cells < percent_cells * numb_cells)||!(numb_gen_cells < numb_cells)))		//first gener algorithm
+	while(numb_gen_cells < percent_cells * numb_cells&&numb_gen_cells < numb_cells)		//first gener algorithm
 	{
 		int di=0, dj = 0;
 		switch (rand() % 4)
